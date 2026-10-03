@@ -1,7 +1,26 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
+
+// Release signing comes from keystore.properties (local builds) or from RELEASE_* environment
+// variables (CI). -PunsignedRelease builds an unsigned release APK, used by the PR workflow to
+// exercise R8 without access to the key.
+val unsignedRelease = providers.gradleProperty("unsignedRelease").isPresent
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+fun signingValue(property: String, env: String): String? =
+    keystoreProperties.getProperty(property) ?: providers.environmentVariable(env).orNull
+val releaseStoreFile = signingValue("storeFile", "RELEASE_KEYSTORE_PATH")
+val releaseStorePassword = signingValue("storePassword", "RELEASE_KEYSTORE_PASSWORD")
+val releaseKeyAlias = signingValue("keyAlias", "RELEASE_KEY_ALIAS")
+val releaseKeyPassword = signingValue("keyPassword", "RELEASE_KEY_PASSWORD")
+val hasReleaseSigning = listOf(releaseStoreFile, releaseStorePassword, releaseKeyAlias, releaseKeyPassword)
+    .all { !it.isNullOrBlank() }
 
 android {
     namespace = "io.github.perroabuelo.materialeleven"
@@ -19,9 +38,25 @@ android {
         versionName = "0.1.0"
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(releaseStoreFile!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (hasReleaseSigning && !unsignedRelease) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
@@ -52,4 +87,21 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     testImplementation(libs.junit)
+}
+
+val checkReleaseSigning = tasks.register("checkReleaseSigning") {
+    val canBuild = hasReleaseSigning || unsignedRelease
+    doLast {
+        if (!canBuild) {
+            throw GradleException(
+                "Release signing is not configured. Create keystore.properties (see README) or set " +
+                    "RELEASE_KEYSTORE_PATH, RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS and " +
+                    "RELEASE_KEY_PASSWORD. Use -PunsignedRelease for an unsigned build."
+            )
+        }
+    }
+}
+
+tasks.configureEach {
+    if (name == "packageRelease") dependsOn(checkReleaseSigning)
 }
