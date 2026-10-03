@@ -7,6 +7,16 @@
     <string name="songs_empty_body">Copia archivos de audio al teléfono, por ejemplo en la carpeta Música, y aparecerán aquí.</string>
 
     <string name="playback_channel">Reproducción</string>
+    <string name="now_playing">Reproduciendo</string>
+    <string name="up_next">A continuación</string>
+    <string name="action_play">Reproducir</string>
+    <string name="action_pause">Pausar</string>
+    <string name="action_next">Siguiente</string>
+    <string name="action_previous">Anterior</string>
+    <string name="action_shuffle">Aleatorio</string>
+    <string name="action_repeat">Repetir</string>
+    <string name="action_collapse">Cerrar Reproduciendo</string>
+    <string name="nothing_playable">No se pudo reproducir ninguna de estas canciones.</string>
 
     <string name="permission_title">Tu música, en este teléfono</string>
     <string name="permission_body">Material Eleven necesita acceso a la música y los archivos de audio de este teléfono para listarlos y reproducirlos. No lee fotos, videos ni ningún otro archivo.</string>

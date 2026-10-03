@@ -54,6 +54,10 @@ data class PlayerState(
     val upNext: List<IndexedItem> = emptyList(),
 ) {
     val hasQueue: Boolean get() = current != null
+
+    /** Playback position as a fraction of the track, 0 when the duration is not known yet. */
+    val progress: Float
+        get() = if (durationMs > 0) (positionMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f
     val currentTrackId: Long? get() = current?.mediaId?.toLongOrNull()
 }
 

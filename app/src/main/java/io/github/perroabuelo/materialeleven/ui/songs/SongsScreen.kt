@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,7 +43,7 @@ import io.github.perroabuelo.materialeleven.ui.theme.ElevenColors
 import io.github.perroabuelo.materialeleven.ui.theme.LocalAccent
 
 @Composable
-fun SongsScreen(currentTrackId: Long?, onPlay: (tracks: List<Track>, index: Int) -> Unit) {
+fun SongsScreen(currentTrackId: Long?, bottomPadding: Dp, onPlay: (tracks: List<Track>, index: Int) -> Unit) {
     val context = LocalContext.current
     val viewModel: SongsViewModel = viewModel { SongsViewModel(MediaStoreSource(context)) }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -62,7 +64,8 @@ fun SongsScreen(currentTrackId: Long?, onPlay: (tracks: List<Track>, index: Int)
             is SongsState.Loaded -> if (current.tracks.isEmpty()) {
                 CenteredMessage(stringResource(R.string.songs_empty_title), stringResource(R.string.songs_empty_body))
             } else {
-                LazyColumn(Modifier.fillMaxSize()) {
+                // Keeps the last row reachable above the mini player.
+                LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = bottomPadding)) {
                     itemsIndexed(current.tracks, key = { _, track -> track.id }, contentType = { _, _ -> "song" }) { index, track ->
                         SongRow(track, isCurrent = track.id == currentTrackId) { onPlay(current.tracks, index) }
                     }

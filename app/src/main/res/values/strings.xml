@@ -8,6 +8,16 @@
     <string name="songs_empty_body">Copy audio files to the phone, for example into the Music folder, and they will show up here.</string>
 
     <string name="playback_channel">Playback</string>
+    <string name="now_playing">Now playing</string>
+    <string name="up_next">Up next</string>
+    <string name="action_play">Play</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_next">Next</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_shuffle">Shuffle</string>
+    <string name="action_repeat">Repeat</string>
+    <string name="action_collapse">Close Now Playing</string>
+    <string name="nothing_playable">None of these songs could be played.</string>
 
     <string name="permission_title">Your music, on this phone</string>
     <string name="permission_body">Material Eleven needs access to the music and audio files on this phone to list and play them. It does not read photos, videos or any other files.</string>

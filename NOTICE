@@ -40,6 +40,14 @@ FONTS
   (LICENSES/OFL-IBMPlexMono.txt).
 
 
+ICONS
+=====
+
+  The transport icons (play, pause, skip, shuffle, repeat, arrow) use the
+  paths of Google's Material Icons, licensed under the Apache License,
+  Version 2.0 (LICENSES/Apache-2.0.txt).
+
+
 LIBRARIES
 =========
 
