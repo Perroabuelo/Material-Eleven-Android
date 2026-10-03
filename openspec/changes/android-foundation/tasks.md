@@ -1,7 +1,7 @@
 ## 0. Requisitos del usuario (antes de las tareas 1.4 y 9.3)
 
 - [x] 0.1 Crear el repo `Perroabuelo/Material-Eleven-Android` en GitHub y agregarlo como `origin`. Listo cuando `git push -u origin main` funciona.
-- [ ] 0.2 Generar la keystore de release con `keytool`, respaldarla fuera de la máquina y cargar los secrets `RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS` y `RELEASE_KEY_PASSWORD` en el repo. Listo cuando `gh secret list` muestra los cuatro.
+- [x] 0.2 Generar la keystore de release con `keytool`, respaldarla fuera de la máquina y cargar los secrets `RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS` y `RELEASE_KEY_PASSWORD` en el repo. Listo cuando `gh secret list` muestra los cuatro.
 
 ## 1. Esqueleto del proyecto y CI
 
