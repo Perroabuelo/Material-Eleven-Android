@@ -2,6 +2,7 @@ package io.github.perroabuelo.materialeleven.playback
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.os.Bundle
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -48,7 +49,10 @@ class PlaybackService : MediaSessionService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
 
-        session = MediaSession.Builder(this, QueuePlayer(player))
+        val queuePlayer = QueuePlayer(player) {
+            session?.broadcastCustomCommand(PlaybackEvents.NOTHING_PLAYABLE, Bundle.EMPTY)
+        }
+        session = MediaSession.Builder(this, queuePlayer)
             .setSessionActivity(openNowPlaying)
             .setBitmapLoader(CacheBitmapLoader(ArtworkBitmapLoader(this)))
             .setCallback(SessionCallback())
