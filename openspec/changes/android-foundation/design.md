@@ -55,7 +55,7 @@ Un test de lint propio, o una regla simple en CI (`grep` sobre `core/`), falla s
 
 ### 6. Tema
 - `MaterialTheme` con un `darkColorScheme` construido desde los tokens de la Vita: `background`/`surface` #120F17, `surfaceContainer` #1C1826, `surfaceContainerHigh` #241F30 y `onSurface` #F4EFEA. El acento entra como `primary` y como `CompositionLocal` propio, para los elementos que no son de Material. No hay `dynamicColor` y se ignora el modo claro del sistema.
-- Fuentes Manrope (variable) e IBM Plex Mono Medium en `res/font`, copiadas del repo de la Vita junto a sus licencias OFL. El renderizador de texto de Android ya recurre a la fuente del sistema para los glifos que faltan.
+- Fuentes Manrope (pesos estáticos 400 a 800 del repo googlefonts/manrope; Compose no aplica el eje de peso de una fuente variable cargada desde recursos) e IBM Plex Mono Medium (copiada del repo de la Vita) en `res/font`, con sus licencias OFL. El renderizador de texto de Android ya recurre a la fuente del sistema para los glifos que faltan.
 - `enableEdgeToEdge(SystemBarStyle.dark(...))` y los insets aplicados con `WindowInsets.safeDrawing` en el contenedor raíz.
 
 ### 7. Reproduciendo como hoja expandible

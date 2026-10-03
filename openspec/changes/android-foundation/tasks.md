@@ -20,7 +20,7 @@
 ## 3. Tema e identidad
 
 - [ ] 3.1 `ui/theme`: tokens de color de la Vita, `darkColorScheme`, colores de familia de formato, fuentes Manrope e IBM Plex Mono en `res/font`, tipografía y `CompositionLocal` de acento con su color "sobre acento". Activar edge-to-edge con barras oscuras. Listo cuando, con una pantalla de muestra, en el teléfono se verifican "Sistema en modo claro" y "Navegación por gestos y por botones" (spec `ui/theme`).
-- [ ] 3.2 Componente `FormatBadge` (texto Plex Mono en el color de su familia sobre un fondo tenue, sin contorno). Listo cuando una vista previa de Compose muestra FLAC verde, MP3 morado y un formato desconocido en gris, y lint pasa.
+- [x] 3.2 Componente `FormatBadge` (texto Plex Mono en el color de su familia sobre un fondo tenue, sin contorno). Listo cuando una vista previa de Compose muestra FLAC verde, MP3 morado y un formato desconocido en gris, y lint pasa.
 - [ ] 3.3 Ícono adaptativo vectorial (fondo #FF9166, corchea blanca dentro de la zona segura, capa monocroma) y nombre "Material Eleven" en `strings.xml`. Listo cuando en el teléfono se verifican "Nombre en el lanzador", "Ícono con la máscara del lanzador" e "Íconos temáticos" (spec `app/identity`).
 - [ ] 3.4 Idiomas: `values` (inglés) y `values-es` con todos los textos hasta este punto, `generateLocaleConfig` y `resources.properties`. Listo cuando en el teléfono se verifican "Variante regional", "Idioma no soportado" e "Idioma por aplicación" (spec `ui/language`).
 

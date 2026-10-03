@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.perroabuelo.materialeleven.core.library.AudioFormat
+import io.github.perroabuelo.materialeleven.ui.components.FormatBadge
 import io.github.perroabuelo.materialeleven.ui.theme.ElevenColors
 import io.github.perroabuelo.materialeleven.ui.theme.ElevenTextStyles
 import io.github.perroabuelo.materialeleven.ui.theme.LocalAccent
@@ -61,6 +64,11 @@ private fun ThemePreview() {
             Text("Secondary text", style = MaterialTheme.typography.bodyMedium, color = ElevenColors.TextSecondary)
             Text("Tertiary text", style = MaterialTheme.typography.bodySmall, color = ElevenColors.TextTertiary)
             Text("1:23  -2:37", style = ElevenTextStyles.Time, color = ElevenColors.TextSecondary)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FormatBadge(AudioFormat.of("a.flac", null))
+                FormatBadge(AudioFormat.of("a.mp3", null))
+                FormatBadge(AudioFormat.of("a.mka", null))
+            }
             Text("音楽 · Музыка · 음악", style = MaterialTheme.typography.bodyLarge)
         }
         Box(
