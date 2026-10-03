@@ -5,11 +5,11 @@ Define cómo Material Eleven obtiene permiso para leer la música del teléfono 
 ## ADDED Requirements
 
 ### Requirement: Permiso de lectura de música con explicación previa
-Sin permiso de lectura de audio, la app SHALL mostrar una pantalla que explica para qué lo necesita, con un botón que lo solicita al sistema. La app MUST pedir solo el permiso de audio (no el de fotos, videos ni todos los archivos).
+Sin permiso de lectura de audio, la app SHALL mostrar una pantalla que explica para qué lo necesita, con un botón que lo solicita al sistema. En Android 13 o superior, la app MUST pedir solo el permiso de audio (no el de fotos, videos ni todos los archivos). En Android 8 a 12, donde no existe un permiso solo de audio, MUST pedir el permiso de lectura de almacenamiento y nunca el de administrar todos los archivos.
 
 #### Scenario: Primer arranque
 - **WHEN** el usuario abre la app por primera vez
-- **THEN** ve la explicación y, al tocar el botón, el diálogo del sistema pide acceso a música y audio
+- **THEN** ve la explicación y, al tocar el botón, el diálogo del sistema pide acceso a música y audio (en Android 8 a 12, a fotos, contenido multimedia y archivos)
 
 #### Scenario: Permiso concedido
 - **WHEN** el usuario concede el permiso

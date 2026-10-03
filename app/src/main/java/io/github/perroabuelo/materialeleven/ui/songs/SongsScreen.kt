@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +29,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.perroabuelo.materialeleven.R
 import io.github.perroabuelo.materialeleven.core.library.Track
 import io.github.perroabuelo.materialeleven.data.MediaStoreSource
+import io.github.perroabuelo.materialeleven.data.TrackArtwork
+import io.github.perroabuelo.materialeleven.ui.components.Artwork
 import io.github.perroabuelo.materialeleven.ui.components.FormatBadge
 import io.github.perroabuelo.materialeleven.ui.theme.ElevenColors
 
@@ -65,6 +69,12 @@ private fun SongRow(track: Track) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        Artwork(
+            TrackArtwork(track.id, track.albumId),
+            sizePx = TrackArtwork.THUMBNAIL_PX,
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier.size(48.dp),
+        )
         Column(Modifier.weight(1f)) {
             Text(track.title, style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
