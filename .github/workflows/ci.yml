@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Check that core/ stays free of Android
+        run: sh scripts/check-core-purity.sh
+
+      - name: Lint, JVM tests and debug APK
+        run: ./gradlew lint testDebugUnitTest assembleDebug
+
+      - name: Unsigned release APK (runs R8)
+        run: ./gradlew assembleRelease -PunsignedRelease
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: material-eleven-debug
+          path: app/build/outputs/apk/debug/*.apk
+
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: reports
+          path: app/build/reports/
