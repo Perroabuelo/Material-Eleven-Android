@@ -6,6 +6,8 @@
     <string name="songs_empty_title">No se encontró música</string>
     <string name="songs_empty_body">Copia archivos de audio al teléfono, por ejemplo en la carpeta Música, y aparecerán aquí.</string>
 
+    <string name="playback_channel">Reproducción</string>
+
     <string name="permission_title">Tu música, en este teléfono</string>
     <string name="permission_body">Material Eleven necesita acceso a la música y los archivos de audio de este teléfono para listarlos y reproducirlos. No lee fotos, videos ni ningún otro archivo.</string>
     <string name="permission_blocked">El acceso fue denegado. Puedes concederlo en los ajustes de la app, en Permisos.</string>

@@ -9,11 +9,13 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.CacheBitmapLoader
+import androidx.media3.session.DefaultMediaNotificationProvider
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import io.github.perroabuelo.materialeleven.MainActivity
+import io.github.perroabuelo.materialeleven.R
 
 /**
  * Owns the player and the media session. The app, the notification, the lock screen and
@@ -25,6 +27,12 @@ class PlaybackService : MediaSessionService() {
 
     override fun onCreate() {
         super.onCreate()
+        setMediaNotificationProvider(
+            DefaultMediaNotificationProvider.Builder(this)
+                .setChannelName(R.string.playback_channel)
+                .build()
+                .apply { setSmallIcon(R.drawable.ic_note) },
+        )
         val player = ExoPlayer.Builder(this)
             .setAudioAttributes(
                 AudioAttributes.Builder()
