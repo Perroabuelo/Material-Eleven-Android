@@ -1,0 +1,82 @@
+schema: spec-driven
+
+context: |
+  Language: Spanish
+  Todos los artefactos deben escribirse en Español
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+  App: Material Eleven para Android, reproductor de música local con interfaz
+  Material You. Es la versión móvil de Material-Eleven (homebrew para PS Vita,
+  repo Perroabuelo/Material-Eleven), reescrita desde cero: no se porta código C
+  de la Vita; se replica la estética y el comportamiento, adaptados a un teléfono.
+  Licencia: GPL-3.0-or-later. NOTICE registra el origen de código y assets de
+  terceros. Todo código de terceros que se agregue MUST ser compatible con GPLv3,
+  y su licencia se registra en NOTICE y en LICENSES/.
+  Stack: Kotlin + Jetpack Compose + Material 3, Media3 (ExoPlayer +
+  MediaSessionService), Room. Un solo módulo :app, sin framework de inyección de
+  dependencias. Gradle con Kotlin DSL y version catalog. JDK 21 (JBR de Android Studio).
+  applicationId: io.github.perroabuelo.materialeleven. minSdk 26, target/compileSdk 36.
+  Fuentes: Manrope e IBM Plex Mono (OFL), igual que en la Vita.
+  Biblioteca: híbrida. MediaStore encuentra los archivos de audio; la app lee los
+  tags (artista del álbum, disco, pista) para corregir los datos y guarda el índice en Room.
+  Color de acento: se extrae de la carátula de la pista en reproducción.
+  Navegación: barra inferior + mini player que se expande a "Reproduciendo".
+  Dispositivo de prueba: Poco X7 Pro con Android 16.
+  Pruebas: tests unitarios JVM (JUnit) para la lógica pura (cola, orden, parsing,
+  índice); verificación manual en el teléfono, descrita paso a paso.
+  CI: GitHub Actions corre lint, tests y compila el APK en cada PR. Un release
+  adjunta el APK firmado al GitHub Release de su tag.
+  Distribución: solo GitHub Releases por ahora (sin Play Store ni F-Droid).
+  Repo: Perroabuelo/Material-Eleven-Android. La rama principal es main.
+  Git: cada cambio de OpenSpec vive en su propia rama change/<nombre-del-cambio>,
+  creada desde main al proponerlo, y se integra a main solo mediante PR con CI en verde.
+  Los commits no llevan trailers de co-autoría de agentes.
+  La carpeta .claude/ no se versiona.
+  Artefactos de OpenSpec en español. README y código en inglés.
+  CHANGELOG.md y las notas de los GitHub Releases en inglés.
+  Textos de la interfaz en inglés y español (strings.xml), siguiendo el idioma del sistema.
+
+rules:
+  proposal:
+    - Indicar el nombre de la rama git del cambio (change/<nombre-del-cambio>)
+    - Incluir una seccion "Fuera de alcance"
+    - >-
+      Incluir una seccion "Notas de version" con la version objetivo (vX.Y.Z), el tipo de
+      salto SemVer (major, minor o patch: una funcionalidad nueva sube el minor y una
+      correccion sube el patch) y bullets en lenguaje de usuario, escritos en ingles porque
+      se copian tal cual a CHANGELOG.md
+  design:
+    - Describir la estrategia de pruebas del cambio (tests JVM, pruebas en el telefono)
+    - Indicar cualquier cambio necesario en el pipeline de CI
+    - >-
+      Mantener la logica (cola, orden de biblioteca, parsing de tags, indice) como Kotlin puro,
+      sin dependencias de Android, para poder probarla con tests JVM
+    - Si se incorpora codigo, librerias o assets de terceros, indicar su licencia y su compatibilidad con GPLv3
+  specs:
+    - Cada requirement debe tener al menos un scenario verificable por un test o por una prueba en el telefono descrita paso a paso
+  tasks:
+    - Cada tarea es del tamano de un commit (una parte logica, revisable sola)
+    - Cada tarea incluye sus pruebas y el criterio de listo (que debe compilar, que test debe pasar o que se verifica en el telefono)
+    - Ninguna tarea se marca completa si la compilacion, lint o los tests fallan
+    - Si el CI aun no existe, la configuracion de CI es de las primeras tareas
+
+operations:
+  apply:
+    guidance:
+      - Trabajar siempre en la rama change/<nombre-del-cambio>, nunca en main
+      - Un commit por tarea, solo cuando compila y sus pruebas pasan localmente
+      - Correr ./gradlew lint test assembleDebug antes de cada commit
+      - Hacer push de la rama y verificar que el CI quede en verde
+  archive:
+    guidance:
+      - Archivar solo con el CI en verde en la rama del cambio
+      - Fusionar a main mediante PR
+      - >-
+        Mover los bullets de "Notas de version" de la propuesta a CHANGELOG.md, en una seccion
+        nueva "## [X.Y.Z] - AAAA-MM-DD" bajo "Unreleased", agrupados en Added, Changed o
+        Fixed
+      - Subir versionName a "X.Y.Z" y versionCode a X*10000 + Y*100 + Z en app/build.gradle.kts
+      - >-
+        Despues de fusionar el PR, crear el tag anotado vX.Y.Z sobre el commit de merge en main
+        (git tag -a vX.Y.Z -m "vX.Y.Z" <merge>), publicarlo (git push origin vX.Y.Z) y adjuntar
+        el APK firmado compilado desde ese commit al GitHub Release del tag
