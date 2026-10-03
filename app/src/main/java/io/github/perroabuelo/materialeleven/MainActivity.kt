@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.perroabuelo.materialeleven.core.library.AudioFormat
 import io.github.perroabuelo.materialeleven.ui.components.FormatBadge
@@ -59,10 +60,10 @@ private fun ThemePreview() {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Spacer(Modifier.height(16.dp))
             Text("Material Eleven", style = MaterialTheme.typography.displaySmall)
-            Text("Songs", style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.songs), style = MaterialTheme.typography.titleLarge)
             Text("Body text in Manrope", style = MaterialTheme.typography.bodyLarge)
             Text("Secondary text", style = MaterialTheme.typography.bodyMedium, color = ElevenColors.TextSecondary)
-            Text("Tertiary text", style = MaterialTheme.typography.bodySmall, color = ElevenColors.TextTertiary)
+            Text(stringResource(R.string.unknown), style = MaterialTheme.typography.bodySmall, color = ElevenColors.TextTertiary)
             Text("1:23  -2:37", style = ElevenTextStyles.Time, color = ElevenColors.TextSecondary)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FormatBadge(AudioFormat.of("a.flac", null))

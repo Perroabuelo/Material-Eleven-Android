@@ -68,6 +68,11 @@ android {
     buildFeatures {
         compose = true
     }
+
+    androidResources {
+        // Lists the app's languages for the per-app language setting of Android 13+.
+        generateLocaleConfig = true
+    }
 }
 
 kotlin {
