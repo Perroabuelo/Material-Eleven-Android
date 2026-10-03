@@ -73,6 +73,7 @@ El servicio declara `foregroundServiceType="mediaPlayback"` y el permiso `FOREGR
 El ícono de la Vita es una corchea blanca sobre fondo #FF9166. Se redibuja como vector: capa de fondo de color sólido #FF9166 y capa de primer plano con la corchea en `VectorDrawable`, dentro de la zona segura de 66 dp. La capa monocroma es la misma corchea. El PNG de 128 px de la Vita no tiene resolución suficiente para escalarlo.
 
 ### 11. Build, versiones y firma
+- compileSdk 37.2 y targetSdk 36: las versiones actuales de AndroidX (core 1.19, Compose 1.12) exigen compilar contra la API 37. El targetSdk se queda en 36, el Android del teléfono de prueba, para no activar comportamientos de Android 17 sin probarlos.
 - Gradle Kotlin DSL con `gradle/libs.versions.toml`. AGP, Kotlin (con el plugin del compilador de Compose), el BOM de Compose, Media3 y Coil se fijan a sus últimas versiones estables al crear el proyecto. Gradle corre sobre JDK 21 y `jvmTarget` es 17.
 - `versionName`/`versionCode` según la regla de archive de config.yaml. Este cambio queda en 0.1.0 / 100.
 - Release: `isMinifyEnabled = true` y `isShrinkResources = true`. Media3 y Coil traen sus reglas de consumidor.
