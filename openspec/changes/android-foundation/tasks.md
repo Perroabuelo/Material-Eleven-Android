@@ -19,9 +19,9 @@
 
 ## 3. Tema e identidad
 
-- [ ] 3.1 `ui/theme`: tokens de color de la Vita, `darkColorScheme`, colores de familia de formato, fuentes Manrope e IBM Plex Mono en `res/font`, tipografía y `CompositionLocal` de acento con su color "sobre acento". Activar edge-to-edge con barras oscuras. Listo cuando, con una pantalla de muestra, en el teléfono se verifican "Sistema en modo claro" y "Navegación por gestos y por botones" (spec `ui/theme`).
+- [x] 3.1 `ui/theme`: tokens de color de la Vita, `darkColorScheme`, colores de familia de formato, fuentes Manrope e IBM Plex Mono en `res/font`, tipografía y `CompositionLocal` de acento con su color "sobre acento". Activar edge-to-edge con barras oscuras. Listo cuando, con una pantalla de muestra, en el teléfono se verifican "Sistema en modo claro" y "Navegación por gestos y por botones" (spec `ui/theme`).
 - [x] 3.2 Componente `FormatBadge` (texto Plex Mono en el color de su familia sobre un fondo tenue, sin contorno). Listo cuando una vista previa de Compose muestra FLAC verde, MP3 morado y un formato desconocido en gris, y lint pasa.
-- [ ] 3.3 Ícono adaptativo vectorial (fondo #FF9166, corchea blanca dentro de la zona segura, capa monocroma) y nombre "Material Eleven" en `strings.xml`. Listo cuando en el teléfono se verifican "Nombre en el lanzador", "Ícono con la máscara del lanzador" e "Íconos temáticos" (spec `app/identity`).
+- [x] 3.3 Ícono adaptativo vectorial (fondo #FF9166, corchea blanca dentro de la zona segura, capa monocroma) y nombre "Material Eleven" en `strings.xml`. Listo cuando en el teléfono se verifican "Nombre en el lanzador", "Ícono con la máscara del lanzador" e "Íconos temáticos" (spec `app/identity`). Nota: el lanzador de HyperOS no usa la capa monocroma; "Íconos temáticos" se verifica en un emulador con el lanzador de Pixel en la tarea 9.2.
 - [x] 3.4 Idiomas: `values` (inglés) y `values-es` con todos los textos hasta este punto, `generateLocaleConfig` y `resources.properties`. Listo cuando en el teléfono se verifican "Variante regional", "Idioma no soportado" e "Idioma por aplicación" (spec `ui/language`).
 
 ## 4. Permiso y fuente de datos
@@ -57,5 +57,5 @@
 ## 9. Release
 
 - [ ] 9.1 Agregar `.github/workflows/release.yml` (tag `v*`, verificación de que `versionName` coincide con el tag, keystore desde secrets, `assembleRelease`, `gh release` con `material-eleven-vX.Y.Z.apk`). Listo cuando el workflow pasa `actionlint` o la validación de sintaxis de GitHub en la rama.
-- [ ] 9.2 Pasada final en el teléfono con el APK de release firmado localmente, recorriendo todos los scenarios de las nueve specs. Listo cuando todos pasan, o los que fallen tienen su corrección commiteada y verificada.
+- [ ] 9.2 Pasada final en el teléfono con el APK de release firmado localmente, recorriendo todos los scenarios de las nueve specs, más "Íconos temáticos" en un emulador con el lanzador de Pixel. Listo cuando todos pasan, o los que fallen tienen su corrección commiteada y verificada.
 - [ ] 9.3 Después del merge y del archive: tag `v0.1.0`, verificar que el GitHub Release adjunta el APK y que se instala encima de una instalación de release previa sin perder el permiso. Listo cuando se verifican "Release publicado" e "Instalar la versión siguiente" (con un APK 0.1.1 de prueba sin publicar).
