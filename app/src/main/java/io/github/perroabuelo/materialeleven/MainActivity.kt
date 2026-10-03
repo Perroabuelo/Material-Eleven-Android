@@ -28,4 +28,9 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    companion object {
+        /** Set by the notification: opens the app on Now Playing. */
+        const val EXTRA_OPEN_NOW_PLAYING = "open_now_playing"
+    }
 }
