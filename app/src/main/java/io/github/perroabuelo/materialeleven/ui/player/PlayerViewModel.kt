@@ -2,6 +2,7 @@ package io.github.perroabuelo.materialeleven.ui.player
 
 import android.app.Application
 import android.content.ComponentName
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
@@ -19,11 +20,16 @@ import androidx.media3.session.SessionToken
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import io.github.perroabuelo.materialeleven.R
+import io.github.perroabuelo.materialeleven.core.accent.Accent
+import io.github.perroabuelo.materialeleven.core.accent.CoverAccent
 import io.github.perroabuelo.materialeleven.core.library.Track
 import io.github.perroabuelo.materialeleven.core.queue.PlaybackOrder
+import io.github.perroabuelo.materialeleven.data.TrackArtwork
+import io.github.perroabuelo.materialeleven.data.loadArtwork
 import io.github.perroabuelo.materialeleven.playback.PlaybackEvents
 import io.github.perroabuelo.materialeleven.playback.PlaybackService
 import io.github.perroabuelo.materialeleven.playback.TrackItems
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -33,6 +39,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /** What the UI shows of playback. */
 data class PlayerState(
@@ -59,6 +66,13 @@ enum class PlayerEvent { NOTHING_PLAYABLE }
 class PlayerViewModel(application: Application) : AndroidViewModel(application) {
     private val _state = MutableStateFlow(PlayerState())
     val state: StateFlow<PlayerState> = _state.asStateFlow()
+
+    private val _accent = MutableStateFlow(Accent.FIXED)
+
+    /** The accent colour (ARGB) taken from the cover of the playing track. */
+    val accent: StateFlow<Int> = _accent.asStateFlow()
+    private var accentFor: TrackArtwork? = null
+    private var accentJob: Job? = null
 
     private val _events = Channel<PlayerEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
@@ -151,6 +165,38 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             upNext = upNext(player),
         )
         updatePositionTicker(player.isPlaying)
+        updateAccent(TrackItems.artworkOf(player.currentMediaItem))
+    }
+
+    // The accent follows the cover; it is computed once per track, off the main thread.
+    private fun updateAccent(artwork: TrackArtwork?) {
+        if (artwork == accentFor) return
+        accentFor = artwork
+        accentJob?.cancel()
+        if (artwork == null) {
+            _accent.value = Accent.FIXED
+            return
+        }
+        accentJob = viewModelScope.launch {
+            _accent.value = withContext(Dispatchers.Default) {
+                val bitmap = loadArtwork(getApplication(), artwork, TrackArtwork.ACCENT_PX)?.let {
+                    // Hardware bitmaps cannot be read pixel by pixel.
+                    if (it.config == Bitmap.Config.HARDWARE) {
+                        it.copy(Bitmap.Config.ARGB_8888, false)
+                    } else {
+                        it
+                    }
+                }
+                val cover = if (bitmap == null) {
+                    CoverAccent.None
+                } else {
+                    val pixels = IntArray(bitmap.width * bitmap.height)
+                    bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+                    Accent.classify(pixels, bitmap.width, bitmap.height)
+                }
+                Accent.accentFor(cover)
+            }
+        }
     }
 
     private fun updatePositionTicker(playing: Boolean) {
