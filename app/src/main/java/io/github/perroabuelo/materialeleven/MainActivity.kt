@@ -5,9 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.perroabuelo.materialeleven.ui.permission.AudioPermissionStatus
 import io.github.perroabuelo.materialeleven.ui.permission.PermissionScreen
 import io.github.perroabuelo.materialeleven.ui.permission.rememberAudioPermissionState
+import io.github.perroabuelo.materialeleven.ui.player.PlayerViewModel
 import io.github.perroabuelo.materialeleven.ui.songs.SongsScreen
 import io.github.perroabuelo.materialeleven.ui.theme.MaterialElevenTheme
 
@@ -21,7 +25,9 @@ class MainActivity : ComponentActivity() {
             MaterialElevenTheme {
                 val permission = rememberAudioPermissionState()
                 if (permission.status == AudioPermissionStatus.GRANTED) {
-                    SongsScreen()
+                    val player: PlayerViewModel = viewModel()
+                    val playerState by player.state.collectAsStateWithLifecycle()
+                    SongsScreen(currentTrackId = playerState.currentTrackId, onPlay = player::playQueue)
                 } else {
                     PermissionScreen(permission)
                 }

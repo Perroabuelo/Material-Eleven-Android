@@ -12,16 +12,16 @@ import io.github.perroabuelo.materialeleven.core.queue.PlaybackOrder
 import io.github.perroabuelo.materialeleven.core.queue.SkipPolicy
 
 /**
- * The player the media session exposes. It keeps the queue circular, exposes repeat as "repeat
- * the track" on or off, starts every shuffled order with the playing track, and skips tracks that
- * cannot be opened, calling [onNothingPlayable] when a whole lap fails.
+ * The player the media session exposes. It keeps the queue circular (repeat off is REPEAT_MODE_ALL,
+ * which controllers see as such; repeat on is REPEAT_MODE_ONE), starts every shuffled order with the
+ * playing track, and skips tracks that cannot be opened, calling [onNothingPlayable] when a whole
+ * lap fails.
  */
 @UnstableApi
 class QueuePlayer(
     private val exoPlayer: ExoPlayer,
     private val onNothingPlayable: () -> Unit,
 ) : ForwardingPlayer(exoPlayer) {
-    private val wrappedListeners = mutableMapOf<Player.Listener, Player.Listener>()
     private var direction = Direction.FORWARD
     private var consecutiveFailures = 0
 
@@ -67,8 +67,6 @@ class QueuePlayer(
         super.seekTo(mediaItemIndex, positionMs)
     }
 
-    override fun getRepeatMode(): Int = QueueModes.exposedRepeatMode(exoPlayer.repeatMode)
-
     override fun setRepeatMode(repeatMode: Int) {
         exoPlayer.repeatMode = QueueModes.playerRepeatMode(repeatMode)
     }
@@ -86,15 +84,6 @@ class QueuePlayer(
     override fun setMediaItems(mediaItems: MutableList<MediaItem>, resetPosition: Boolean) {
         exoPlayer.setMediaItems(mediaItems, resetPosition)
         if (exoPlayer.shuffleModeEnabled) reshuffleFromCurrent()
-    }
-
-    override fun addListener(listener: Player.Listener) {
-        val wrapped = wrappedListeners.getOrPut(listener) { RepeatMappingListener(listener) }
-        super.addListener(wrapped)
-    }
-
-    override fun removeListener(listener: Player.Listener) {
-        wrappedListeners.remove(listener)?.let { super.removeListener(it) }
     }
 
     private fun skipUnplayable() {
@@ -131,12 +120,5 @@ class QueuePlayer(
         val size = exoPlayer.mediaItemCount
         if (size == 0) return
         exoPlayer.setShuffleOrder(QueueModes.shuffleOrder(size, exoPlayer.currentMediaItemIndex, System.nanoTime()))
-    }
-
-    // Listeners see the exposed repeat mode, never the player's REPEAT_MODE_ALL.
-    private class RepeatMappingListener(private val delegate: Player.Listener) : Player.Listener by delegate {
-        override fun onRepeatModeChanged(repeatMode: Int) {
-            delegate.onRepeatModeChanged(QueueModes.exposedRepeatMode(repeatMode))
-        }
     }
 }

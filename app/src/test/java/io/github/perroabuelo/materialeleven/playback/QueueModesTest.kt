@@ -12,16 +12,10 @@ class QueueModesTest {
     }
 
     @Test
-    fun anyRepeatRequestRepeatsTheTrack() {
+    fun onlyRepeatOneRepeatsTheTrack() {
         assertEquals(Player.REPEAT_MODE_ONE, QueueModes.playerRepeatMode(Player.REPEAT_MODE_ONE))
-        assertEquals(Player.REPEAT_MODE_ONE, QueueModes.playerRepeatMode(Player.REPEAT_MODE_ALL))
-    }
-
-    @Test
-    fun controllersOnlySeeOffOrOne() {
-        assertEquals(Player.REPEAT_MODE_OFF, QueueModes.exposedRepeatMode(Player.REPEAT_MODE_ALL))
-        assertEquals(Player.REPEAT_MODE_OFF, QueueModes.exposedRepeatMode(Player.REPEAT_MODE_OFF))
-        assertEquals(Player.REPEAT_MODE_ONE, QueueModes.exposedRepeatMode(Player.REPEAT_MODE_ONE))
+        // Controllers see repeat off as REPEAT_MODE_ALL; asking for it keeps the queue circular.
+        assertEquals(Player.REPEAT_MODE_ALL, QueueModes.playerRepeatMode(Player.REPEAT_MODE_ALL))
     }
 
     @Test
