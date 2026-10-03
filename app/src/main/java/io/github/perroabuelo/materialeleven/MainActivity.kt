@@ -20,7 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -106,6 +108,7 @@ private fun MusicApp(player: PlayerViewModel, nowPlayingRequests: Int) {
         )
     }
     val miniPlayerSpace = if (state.hasQueue) MiniPlayerHeight else 0.dp
+    var sheetExpanded by remember { mutableStateOf(false) }
 
     Box(Modifier.fillMaxSize()) {
         SongsScreen(
@@ -113,13 +116,14 @@ private fun MusicApp(player: PlayerViewModel, nowPlayingRequests: Int) {
             bottomPadding = miniPlayerSpace,
             onPlay = player::playQueue,
         )
+        if (state.hasQueue) PlayerSheet(state, actions, nowPlayingRequests) { sheetExpanded = it }
+        // Over the sheet, so the message shows on Now Playing too.
         SnackbarHost(
             snackbar,
             Modifier
                 .align(Alignment.BottomCenter)
                 .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(bottom = miniPlayerSpace),
+                .padding(bottom = if (sheetExpanded) 0.dp else miniPlayerSpace),
         )
-        if (state.hasQueue) PlayerSheet(state, actions, nowPlayingRequests)
     }
 }

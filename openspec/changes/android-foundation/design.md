@@ -65,7 +65,7 @@ Un contenedor raíz con la vista Canciones y una capa inferior que va del estado
 
 ### 8. Permiso
 Se declaran `READ_MEDIA_AUDIO` (API 33+) y `READ_EXTERNAL_STORAGE` con `maxSdkVersion=32`, y nada más de almacenamiento. Se pide con el Activity Result API. El estado se vuelve a evaluar en cada `ON_RESUME`, así que conceder el permiso en Ajustes y volver basta. "Negado de forma permanente" se detecta cuando, después de al menos una negación, `shouldShowRequestPermissionRationale` devuelve `false`. Ese caso abre `ACTION_APPLICATION_DETAILS_SETTINGS`. No hace falta `POST_NOTIFICATIONS`: las notificaciones de una `MediaSession` están exentas desde Android 13.
-El servicio declara `foregroundServiceType="mediaPlayback"` y el permiso `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, como exige targetSdk 34+.
+Al pausar, el servicio sale del primer plano de inmediato (`setForegroundServiceTimeoutMs(0)`; Media3 lo mantiene 10 minutos por defecto), para que la tarjeta multimedia se pueda descartar en pausa (spec `playback/background`). El servicio declara `foregroundServiceType="mediaPlayback"` y el permiso `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, como exige targetSdk 34+.
 
 ### 9. Idiomas
 `res/values` (inglés, respaldo) y `res/values-es` (cualquier variante regional del español cae ahí). Con `androidResources.generateLocaleConfig = true` y `res/resources.properties` (`unqualifiedResLocale=en-US`), el sistema ofrece la selección de idioma por app en Android 13+, sin código propio.

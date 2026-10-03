@@ -27,6 +27,8 @@ class PlaybackService : MediaSessionService() {
 
     override fun onCreate() {
         super.onCreate()
+        // Leave the foreground as soon as playback pauses, so the notification can be dismissed.
+        setForegroundServiceTimeoutMs(0)
         setMediaNotificationProvider(
             DefaultMediaNotificationProvider.Builder(this)
                 .setChannelName(R.string.playback_channel)

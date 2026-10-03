@@ -37,10 +37,15 @@ enum class SheetValue { Collapsed, Expanded }
 /**
  * The player docked under the lists. Tapping or dragging the mini player up opens Now Playing;
  * dragging down or the system Back closes it. [expandRequests] opens it each time it grows, as the
- * notification asks.
+ * notification asks. [onExpandedChange] reports where the sheet is heading.
  */
 @Composable
-fun PlayerSheet(state: PlayerState, actions: PlayerActions, expandRequests: Int) {
+fun PlayerSheet(
+    state: PlayerState,
+    actions: PlayerActions,
+    expandRequests: Int,
+    onExpandedChange: (Boolean) -> Unit = {},
+) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
     val sheet = remember { AnchoredDraggableState(SheetValue.Collapsed) }
@@ -61,6 +66,7 @@ fun PlayerSheet(state: PlayerState, actions: PlayerActions, expandRequests: Int)
         LaunchedEffect(expandRequests) {
             if (expandRequests > 0) sheet.animateTo(SheetValue.Expanded)
         }
+        LaunchedEffect(sheet.targetValue) { onExpandedChange(sheet.targetValue == SheetValue.Expanded) }
         BackHandler(enabled = sheet.targetValue == SheetValue.Expanded) {
             scope.launch { sheet.animateTo(SheetValue.Collapsed) }
         }

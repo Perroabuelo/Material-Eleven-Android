@@ -49,6 +49,8 @@ import io.github.perroabuelo.materialeleven.ui.theme.ElevenColors
 import io.github.perroabuelo.materialeleven.ui.theme.ElevenTextStyles
 import io.github.perroabuelo.materialeleven.ui.theme.LocalAccent
 
+private const val COVER_WIDTH_FRACTION = 0.85f
+
 /** What Now Playing can ask the player to do. */
 class PlayerActions(
     val togglePlay: () -> Unit,
@@ -81,11 +83,12 @@ fun NowPlayingScreen(state: PlayerState, actions: PlayerActions, onCollapse: () 
                 )
             }
             Spacer(Modifier.height(12.dp))
+            // A bit narrower than the screen, so the up-next list keeps a few rows in view.
             Artwork(
                 TrackItems.artworkOf(state.current),
                 sizePx = TrackArtwork.LARGE_PX,
                 shape = RoundedCornerShape(24.dp),
-                modifier = Modifier.fillMaxWidth().aspectRatio(1f),
+                modifier = Modifier.fillMaxWidth(COVER_WIDTH_FRACTION).aspectRatio(1f).align(Alignment.CenterHorizontally),
             )
             Spacer(Modifier.height(20.dp))
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
