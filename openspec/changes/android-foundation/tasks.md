@@ -5,7 +5,7 @@
 
 ## 1. Esqueleto del proyecto y CI
 
-- [ ] 1.1 Crear el proyecto Gradle (Kotlin DSL, `libs.versions.toml`, wrapper) con el módulo `:app`, `applicationId` `io.github.perroabuelo.materialeleven`, minSdk 26, compileSdk 37.2, targetSdk 36, versión 0.1.0 / 100, Compose y una `MainActivity` vacía con fondo #120F17. Listo cuando `./gradlew assembleDebug` compila y el APK abre en el Poco X7 Pro.
+- [x] 1.1 Crear el proyecto Gradle (Kotlin DSL, `libs.versions.toml`, wrapper) con el módulo `:app`, `applicationId` `io.github.perroabuelo.materialeleven`, minSdk 26, compileSdk 37.2, targetSdk 36, versión 0.1.0 / 100, Compose y una `MainActivity` vacía con fondo #120F17. Listo cuando `./gradlew assembleDebug` compila y el APK abre en el Poco X7 Pro.
 - [x] 1.2 Agregar `LICENSE` (GPL-3.0), `NOTICE`, `LICENSES/` (Apache-2.0, OFL de Manrope e IBM Plex Mono), `README.md` en inglés (qué es, cómo compilar, cómo firmar) y `CHANGELOG.md` con la sección "Unreleased". Listo cuando los archivos existen y `./gradlew lint` pasa.
 - [x] 1.3 Configurar la firma de release (`keystore.properties` local o variables de entorno en CI, `-PunsignedRelease` para PRs, error claro sin credenciales) y R8 con `isMinifyEnabled` e `isShrinkResources`. Listo cuando `./gradlew assembleRelease -PunsignedRelease` compila y `./gradlew assembleRelease` sin credenciales falla con el mensaje esperado.
 - [x] 1.4 Agregar `.github/workflows/ci.yml` (Temurin 21, setup-gradle, chequeo de que `core/` no importa `android.`/`androidx.`, `lint testDebugUnitTest assembleDebug`, `assembleRelease -PunsignedRelease`, artifact del APK de debug). Listo cuando el primer PR de la rama muestra el CI en verde.
