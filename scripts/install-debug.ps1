@@ -6,8 +6,14 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
-if (-not $env:JAVA_HOME) {
-    $env:JAVA_HOME = 'C:\Program Files\Android\Android Studio\jbr'
+# The project builds with the JDK bundled with Android Studio; any other JAVA_HOME is only used
+# when that one is missing and the path actually holds a JDK.
+$studioJdk = 'C:\Program Files\Android\Android Studio\jbr'
+if (Test-Path (Join-Path $studioJdk 'bin\java.exe')) {
+    $env:JAVA_HOME = $studioJdk
+} elseif (-not ($env:JAVA_HOME -and (Test-Path (Join-Path $env:JAVA_HOME 'bin\java.exe')))) {
+    Write-Host "No JDK found. Install Android Studio or set JAVA_HOME to a JDK 21 folder (without \bin)." -ForegroundColor Red
+    exit 1
 }
 $sdk = if ($env:ANDROID_HOME) { $env:ANDROID_HOME } else { Join-Path $env:LOCALAPPDATA 'Android\Sdk' }
 $adb = Join-Path $sdk 'platform-tools\adb.exe'
