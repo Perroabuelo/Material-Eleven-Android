@@ -35,6 +35,9 @@ Requirements: JDK 21 (the one bundled with Android Studio works) and the Android
 ./gradlew lint testDebugUnitTest    # lint and JVM tests
 ```
 
+On Windows, `pwsh scripts/install-debug.ps1` builds the debug APK, installs it on the phone connected
+over USB and opens the app (`-SkipBuild` reinstalls the last build).
+
 ## Release signing
 
 Release builds are signed with a private keystore that is never committed. Losing it means future
