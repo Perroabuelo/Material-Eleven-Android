@@ -23,7 +23,8 @@ val Manrope = FontFamily(
 val PlexMono = FontFamily(Font(R.font.ibm_plex_mono_medium, FontWeight.Medium))
 
 // The Vita's five sizes (badge, label, body, title, display), scaled for a phone.
-private val base = TextStyle(fontFamily = Manrope, color = ElevenColors.TextPrimary)
+// No colour here: text takes LocalContentColor, so components like buttons can set it.
+private val base = TextStyle(fontFamily = Manrope)
 
 val ElevenTypography = Typography(
     displaySmall = base.copy(fontSize = 28.sp, lineHeight = 34.sp, fontWeight = FontWeight.Bold),

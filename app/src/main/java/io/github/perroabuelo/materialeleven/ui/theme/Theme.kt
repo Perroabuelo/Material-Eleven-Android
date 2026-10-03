@@ -1,5 +1,6 @@
 package io.github.perroabuelo.materialeleven.ui.theme
 
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
@@ -47,6 +48,8 @@ fun MaterialElevenTheme(accent: AccentColors = AccentColors.Fixed, content: @Com
         outlineVariant = ElevenColors.Hairline,
     )
     CompositionLocalProvider(LocalAccent provides accent) {
-        MaterialTheme(colorScheme = scheme, typography = ElevenTypography, content = content)
+        MaterialTheme(colorScheme = scheme, typography = ElevenTypography) {
+            CompositionLocalProvider(LocalContentColor provides ElevenColors.TextPrimary, content = content)
+        }
     }
 }

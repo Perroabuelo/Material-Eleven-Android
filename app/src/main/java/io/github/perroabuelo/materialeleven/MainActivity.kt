@@ -28,6 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.perroabuelo.materialeleven.core.library.AudioFormat
 import io.github.perroabuelo.materialeleven.ui.components.FormatBadge
+import io.github.perroabuelo.materialeleven.ui.permission.AudioPermissionStatus
+import io.github.perroabuelo.materialeleven.ui.permission.PermissionScreen
+import io.github.perroabuelo.materialeleven.ui.permission.rememberAudioPermissionState
 import io.github.perroabuelo.materialeleven.ui.theme.ElevenColors
 import io.github.perroabuelo.materialeleven.ui.theme.ElevenTextStyles
 import io.github.perroabuelo.materialeleven.ui.theme.LocalAccent
@@ -41,7 +44,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialElevenTheme {
-                ThemePreview()
+                val permission = rememberAudioPermissionState()
+                if (permission.status == AudioPermissionStatus.GRANTED) {
+                    ThemePreview()
+                } else {
+                    PermissionScreen(permission)
+                }
             }
         }
     }

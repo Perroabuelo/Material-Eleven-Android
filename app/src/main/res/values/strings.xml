@@ -3,4 +3,10 @@
     <string name="app_name" translatable="false">Material Eleven</string>
     <string name="songs">Songs</string>
     <string name="unknown">Unknown</string>
+
+    <string name="permission_title">Your music, on this phone</string>
+    <string name="permission_body">Material Eleven needs access to the music and audio files on this phone to list and play them. It does not read photos, videos or any other files.</string>
+    <string name="permission_blocked">Access was denied. You can grant it in the app settings, under Permissions.</string>
+    <string name="permission_allow">Allow access</string>
+    <string name="permission_open_settings">Open settings</string>
 </resources>

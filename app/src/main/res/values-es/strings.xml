@@ -2,4 +2,10 @@
 <resources>
     <string name="songs">Canciones</string>
     <string name="unknown">Desconocido</string>
+
+    <string name="permission_title">Tu música, en este teléfono</string>
+    <string name="permission_body">Material Eleven necesita acceso a la música y los archivos de audio de este teléfono para listarlos y reproducirlos. No lee fotos, videos ni ningún otro archivo.</string>
+    <string name="permission_blocked">El acceso fue denegado. Puedes concederlo en los ajustes de la app, en Permisos.</string>
+    <string name="permission_allow">Permitir acceso</string>
+    <string name="permission_open_settings">Abrir ajustes</string>
 </resources>
