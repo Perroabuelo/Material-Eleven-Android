@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,6 +35,7 @@ import io.github.perroabuelo.materialeleven.data.TrackArtwork
 import io.github.perroabuelo.materialeleven.ui.components.Artwork
 import io.github.perroabuelo.materialeleven.ui.components.FormatBadge
 import io.github.perroabuelo.materialeleven.ui.theme.ElevenColors
+import io.github.perroabuelo.materialeleven.ui.theme.LocalAccent
 
 @Composable
 fun SongsScreen() {
@@ -52,9 +55,13 @@ fun SongsScreen() {
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
         )
         when (val current = state) {
-            SongsState.Loading -> Unit
-            is SongsState.Loaded -> LazyColumn(Modifier.fillMaxSize()) {
-                items(current.tracks, key = { it.id }) { SongRow(it) }
+            SongsState.Loading -> CenteredMessage(stringResource(R.string.songs_loading), body = null, loading = true)
+            is SongsState.Loaded -> if (current.tracks.isEmpty()) {
+                CenteredMessage(stringResource(R.string.songs_empty_title), stringResource(R.string.songs_empty_body))
+            } else {
+                LazyColumn(Modifier.fillMaxSize()) {
+                    items(current.tracks, key = { it.id }, contentType = { "song" }) { SongRow(it) }
+                }
             }
         }
     }
@@ -86,5 +93,22 @@ private fun SongRow(track: Track) {
             )
         }
         FormatBadge(track.format)
+    }
+}
+
+@Composable
+private fun CenteredMessage(title: String, body: String?, loading: Boolean = false) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(horizontal = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        if (loading) CircularProgressIndicator(color = LocalAccent.current.accent)
+        Text(title, style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+        if (body != null) {
+            Text(body, style = MaterialTheme.typography.bodyLarge, color = ElevenColors.TextSecondary, textAlign = TextAlign.Center)
+        }
     }
 }

@@ -32,7 +32,7 @@
 
 ## 5. Vista Canciones
 
-- [ ] 5.1 Pantalla Canciones: `LazyColumn` ordenada con el comparador de `core/library` y filas con miniatura, título, artista y `FormatBadge` (recorte con "…"), más los estados de carga y de "no se encontró música". Listo cuando en el teléfono se verifican "Orden alfabético", "Título largo en la lista", "Teléfono sin música" y "Colección grande" (con unas 5.000 canciones de prueba).
+- [x] 5.1 Pantalla Canciones: `LazyColumn` ordenada con el comparador de `core/library` y filas con miniatura, título, artista y `FormatBadge` (recorte con "…"), más los estados de carga y de "no se encontró música". Listo cuando en el teléfono se verifican "Orden alfabético", "Título largo en la lista", "Teléfono sin música" y "Colección grande" (con unas 5.000 canciones de prueba).
 
 ## 6. Servicio de reproducción
 
