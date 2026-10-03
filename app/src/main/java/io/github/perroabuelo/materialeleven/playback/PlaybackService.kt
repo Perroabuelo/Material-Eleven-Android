@@ -61,6 +61,15 @@ class PlaybackService : MediaSessionService() {
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = session
 
+    // Removing the app from recents while paused, or with nothing queued, ends the service and
+    // its notification. While music plays, it keeps playing.
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        val player = session?.player
+        if (player == null || !player.playWhenReady || player.mediaItemCount == 0) {
+            pauseAllPlayersAndStopSelf()
+        }
+    }
+
     override fun onDestroy() {
         session?.run {
             player.release()
