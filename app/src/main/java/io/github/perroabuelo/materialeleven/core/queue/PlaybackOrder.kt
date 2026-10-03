@@ -19,6 +19,8 @@ class PlaybackOrder(private val items: IntArray) {
 
     fun toList(): List<Int> = items.toList()
 
+    fun toIntArray(): IntArray = items.copyOf()
+
     /** The item [steps] places after [item], wrapping around. Negative steps go backwards. */
     fun step(item: Int, steps: Int): Int = items[Math.floorMod(positionOf[item] + steps, size)]
 

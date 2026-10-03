@@ -48,7 +48,7 @@ class PlaybackService : MediaSessionService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
 
-        session = MediaSession.Builder(this, player)
+        session = MediaSession.Builder(this, QueuePlayer(player))
             .setSessionActivity(openNowPlaying)
             .setBitmapLoader(CacheBitmapLoader(ArtworkBitmapLoader(this)))
             .setCallback(SessionCallback())
