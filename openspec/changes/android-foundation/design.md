@@ -41,6 +41,7 @@ Un test de lint propio, o una regla simple en CI (`grep` sobre `core/`), falla s
 
 ### 4. Biblioteca desde MediaStore, sin índice propio todavía
 `MediaStoreSource` consulta `MediaStore.Audio.Media.EXTERNAL_CONTENT_URI` con `IS_MUSIC != 0` (eso deja fuera grabaciones, tonos, alarmas y notificaciones) y lee id, título, artista, álbum, album id, duración, MIME, nombre de archivo y fecha de alta. Un `ContentObserver` sobre esa URI, con debounce, vuelve a emitir el `Flow` (spec `library/media-access`, "La lista refleja la música añadida o borrada"). La consulta corre en `Dispatchers.IO`.
+- `IS_MUSIC` no basta: en HyperOS, los audios de WhatsApp, las grabaciones y hasta los tonos guardados en `Music/` vienen con `IS_MUSIC = 1`. `core/library/LibraryFilter` decide además, por ruta y por MIME, qué se lista: fuera `Android/media/` y `Android/data/`, las carpetas de grabaciones en cualquier nivel y los formatos no reproducibles (MIDI y tonos). La ruta sale de `RELATIVE_PATH` en API 29+ y de `DATA` (absoluta, a la que se le quita el prefijo del volumen) en API 26–28. Más adelante, Ajustes podrá permitir elegir carpetas.
 - Los respaldos (nombre de archivo sin extensión, "Desconocido") se resuelven en `core/library`. MediaStore entrega `<unknown>` para artistas vacíos, y eso también se trata como ausente.
 - El orden usa `java.text.Collator` con fuerza `PRIMARY` (ignora mayúsculas y tildes) y el artista como desempate. Es JVM puro, así que se testea.
 - La familia de formato se deduce de la extensión, con el MIME como respaldo, en una tabla de `core/library`.

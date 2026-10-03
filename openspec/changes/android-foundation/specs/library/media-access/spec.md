@@ -37,6 +37,30 @@ La app SHALL listar los archivos que el sistema registra como música, con títu
 - **WHEN** el teléfono tiene grabaciones de voz y tonos de llamada
 - **THEN** ninguno aparece en la lista
 
+### Requirement: Los audios de otras apps, las grabaciones y lo que no se puede reproducir quedan fuera
+Algunos fabricantes registran como música cualquier audio. Por eso la lista MUST dejar fuera, además de lo que el sistema marca como no musical:
+- todo lo que está dentro de las carpetas de medios de otras apps (`Android/media/` y `Android/data/`), como los audios y documentos de WhatsApp o Telegram;
+- todo lo que está dentro de una carpeta de grabaciones, en cualquier nivel: `Recordings`, `Grabaciones`, `Call recordings`, `sound_recorder` o `Voice Recorder`, sin distinguir mayúsculas;
+- los formatos que la app no puede reproducir (MIDI y otros formatos de tonos).
+
+Un audio excluido aparece en la lista si el usuario lo mueve a otra carpeta, por ejemplo `Music/`.
+
+#### Scenario: Audios de WhatsApp
+- **WHEN** el teléfono tiene audios recibidos por WhatsApp en `Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Audio/`
+- **THEN** ninguno aparece en la lista
+
+#### Scenario: Carpeta de grabaciones
+- **WHEN** el teléfono tiene un archivo en `Grabaciones/` y otro en `MIUI/sound_recorder/`
+- **THEN** ninguno de los dos aparece en la lista
+
+#### Scenario: Archivo MIDI
+- **WHEN** el teléfono tiene un archivo `.mid` en `Download/`
+- **THEN** no aparece en la lista
+
+#### Scenario: Un audio movido a Música
+- **WHEN** el usuario mueve un MP3 desde `WhatsApp Documents` a `Music/`
+- **THEN** ese MP3 aparece en la lista
+
 ### Requirement: La lista refleja la música añadida o borrada
 Cuando se añaden o se borran archivos de música en el teléfono mientras la app está abierta o en segundo plano, la lista SHALL actualizarse sola, sin reiniciar la app ni perder la reproducción en curso.
 

@@ -27,7 +27,7 @@
 ## 4. Permiso y fuente de datos
 
 - [ ] 4.1 Declarar `READ_MEDIA_AUDIO` y `READ_EXTERNAL_STORAGE` (`maxSdkVersion=32`) y crear la pantalla de permiso (explicación, botón, detección de negación permanente que abre los ajustes de la app, reevaluación en `ON_RESUME`). Listo cuando en el teléfono se verifican "Primer arranque", "Permiso concedido" y "Negado de forma permanente" (spec `library/media-access`), y el primero se repite en un emulador API 26.
-- [ ] 4.2 `data/MediaStoreSource`: consulta con `IS_MUSIC != 0` en `Dispatchers.IO`, mapeo al `Track` del dominio con los respaldos de `core/library`, y `ContentObserver` con debounce expuesto como `Flow`. Listo cuando en el teléfono se verifican "Pista con tags", "Pista sin tags", "Grabaciones y tonos" y "Copiar música con la app abierta".
+- [x] 4.2 `data/MediaStoreSource`: consulta con `IS_MUSIC != 0` en `Dispatchers.IO`, filtro de `core/library/LibraryFilter` (carpetas de otras apps, grabaciones y formatos no reproducibles, con tests JVM), mapeo al `Track` del dominio con los respaldos de `core/library`, y `ContentObserver` con debounce expuesto como `Flow`. Listo cuando en el teléfono se verifican "Pista con tags", "Pista sin tags", "Grabaciones y tonos", "Audios de WhatsApp", "Carpeta de grabaciones", "Archivo MIDI", "Un audio movido a Música" y "Copiar música con la app abierta".
 - [ ] 4.3 Carga de carátulas con Coil 3 y un `Fetcher` propio (`loadThumbnail` en API 29+; albumart y luego `MediaMetadataRetriever` en API 26–28), en tamaños de 128 px y 1024 px. Listo cuando las miniaturas aparecen en el teléfono y en un emulador API 26 con un FLAC que tiene carátula embebida.
 
 ## 5. Vista Canciones

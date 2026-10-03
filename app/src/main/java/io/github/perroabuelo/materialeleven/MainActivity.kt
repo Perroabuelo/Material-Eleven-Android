@@ -5,35 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import io.github.perroabuelo.materialeleven.core.library.AudioFormat
-import io.github.perroabuelo.materialeleven.ui.components.FormatBadge
 import io.github.perroabuelo.materialeleven.ui.permission.AudioPermissionStatus
 import io.github.perroabuelo.materialeleven.ui.permission.PermissionScreen
 import io.github.perroabuelo.materialeleven.ui.permission.rememberAudioPermissionState
-import io.github.perroabuelo.materialeleven.ui.theme.ElevenColors
-import io.github.perroabuelo.materialeleven.ui.theme.ElevenTextStyles
-import io.github.perroabuelo.materialeleven.ui.theme.LocalAccent
+import io.github.perroabuelo.materialeleven.ui.songs.SongsScreen
 import io.github.perroabuelo.materialeleven.ui.theme.MaterialElevenTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,49 +21,11 @@ class MainActivity : ComponentActivity() {
             MaterialElevenTheme {
                 val permission = rememberAudioPermissionState()
                 if (permission.status == AudioPermissionStatus.GRANTED) {
-                    ThemePreview()
+                    SongsScreen()
                 } else {
                     PermissionScreen(permission)
                 }
             }
-        }
-    }
-}
-
-// Temporary screen that shows the theme until the song list exists.
-@Composable
-private fun ThemePreview() {
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .windowInsetsPadding(WindowInsets.safeDrawing)
-            .padding(horizontal = 20.dp),
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Spacer(Modifier.height(16.dp))
-            Text("Material Eleven", style = MaterialTheme.typography.displaySmall)
-            Text(stringResource(R.string.songs), style = MaterialTheme.typography.titleLarge)
-            Text("Body text in Manrope", style = MaterialTheme.typography.bodyLarge)
-            Text("Secondary text", style = MaterialTheme.typography.bodyMedium, color = ElevenColors.TextSecondary)
-            Text(stringResource(R.string.unknown), style = MaterialTheme.typography.bodySmall, color = ElevenColors.TextTertiary)
-            Text("1:23  -2:37", style = ElevenTextStyles.Time, color = ElevenColors.TextSecondary)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FormatBadge(AudioFormat.of("a.flac", null))
-                FormatBadge(AudioFormat.of("a.mp3", null))
-                FormatBadge(AudioFormat.of("a.mka", null))
-            }
-            Text("音楽 · Музыка · 음악", style = MaterialTheme.typography.bodyLarge)
-        }
-        Box(
-            Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(56.dp)
-                .background(LocalAccent.current.accent, RoundedCornerShape(16.dp)),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text("Bottom edge", color = LocalAccent.current.onAccent, style = MaterialTheme.typography.labelLarge)
         }
     }
 }
