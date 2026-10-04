@@ -15,7 +15,8 @@ context: |
   Stack: Kotlin + Jetpack Compose + Material 3, Media3 (ExoPlayer +
   MediaSessionService), Room. Un solo módulo :app, sin framework de inyección de
   dependencias. Gradle con Kotlin DSL y version catalog. JDK 21 (JBR de Android Studio).
-  applicationId: io.github.perroabuelo.materialeleven. minSdk 26, target/compileSdk 36.
+  applicationId: io.github.perroabuelo.materialeleven. minSdk 26, targetSdk 36, compileSdk 37.2
+  (las librerías AndroidX actuales exigen compilar contra 37).
   Fuentes: Manrope e IBM Plex Mono (OFL), igual que en la Vita.
   Biblioteca: híbrida. MediaStore encuentra los archivos de audio; la app lee los
   tags (artista del álbum, disco, pista) para corregir los datos y guarda el índice en Room.

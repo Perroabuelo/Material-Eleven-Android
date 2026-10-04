@@ -1,0 +1,63 @@
+Material Eleven for Android
+Copyright (C) 2026 Perroabuelo
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version. See LICENSE.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+more details.
+
+
+ORIGIN
+======
+
+Material Eleven for Android is a from-scratch rewrite of Material-Eleven, the
+PS Vita music player (https://github.com/Perroabuelo/Material-Eleven,
+GNU GPL version 3 or later). No C code from the Vita version is included.
+
+  Derived parts:
+  - The cover-art accent colour algorithm (core/accent) is a Kotlin
+    translation of source/accent.c from Material-Eleven, by the same author,
+    under the same licence.
+  - The colour palette and visual design follow Material-Eleven.
+
+
+FONTS
+=====
+
+  Manrope
+  Copyright 2018 The Manrope Project Authors
+  Licensed under the SIL Open Font License, Version 1.1
+  (LICENSES/OFL-Manrope.txt).
+
+  IBM Plex Mono
+  Copyright 2017 IBM Corp.
+  Licensed under the SIL Open Font License, Version 1.1
+  (LICENSES/OFL-IBMPlexMono.txt).
+
+
+ICONS
+=====
+
+  The transport icons (play, pause, skip, shuffle, repeat, arrow) use the
+  paths of Google's Material Icons, licensed under the Apache License,
+  Version 2.0 (LICENSES/Apache-2.0.txt).
+
+
+LIBRARIES
+=========
+
+The APK bundles the following libraries, all licensed under the Apache
+License, Version 2.0 (LICENSES/Apache-2.0.txt), which is compatible with the
+GNU GPL version 3:
+
+  - AndroidX (Core, Activity, Lifecycle, Jetpack Compose, Material 3, Media3)
+    Copyright The Android Open Source Project
+  - Kotlin standard library and kotlinx.coroutines
+    Copyright JetBrains s.r.o. and Kotlin Programming Language contributors
+  - Coil
+    Copyright Coil Contributors
